@@ -33,7 +33,13 @@ app.post('/upload', (req, res, next)=>{
     })
 })
 
-app.listen(3030, ()=>{
-    console.log('Server is running on port 3030...')
+app.get('/download', (req, res)=> {
+    let filePath = __dirname + '/uploads/';
+    let fileName = 'Akash.jpeg';
+    // res.send(fileName)
+    res.sendFile(filePath + fileName)
+})
+app.listen(3040, ()=>{
+    console.log('Server is running on port 3040...')
 })
 
