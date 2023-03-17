@@ -1,13 +1,21 @@
+require('dotenv').config()
 const express = require('express');
 const multer = require('multer')
+const mongoose = require('mongoose')
 const fs = require('fs')
 
 const app = express();
 app.set('view engine', 'ejs');
 
+
 app.get('/', (req, res) => {
     res.render('index')
 })
+
+mongoose.connect(process.env.DB_CONN)
+.then(()=> console.log('Database Connected...'))
+.catch(err => console.log(err))
+
 
 let storage = multer.diskStorage({
     destination: (req, file, callback)=>{
@@ -33,10 +41,11 @@ app.post('/upload', (req, res, next)=>{
     })
 })
 
-app.get('/download', (req, res)=> {
+app.get('/download/:id', (req, res)=> {
     let filePath = __dirname + '/uploads/';
     let fileName = 'Akash.jpeg';
     // res.send(fileName)
+    // res.contentType(filePath + fileName)
     res.sendFile(filePath + fileName)
 })
 app.listen(3040, ()=>{
